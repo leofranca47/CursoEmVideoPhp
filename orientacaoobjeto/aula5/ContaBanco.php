@@ -64,9 +64,15 @@ class ContaBanco
         $this->status = $status;
     }
 
-    public function abrirConta()
+    public function abrirConta($t)
     {
-        
+        $this->setTipo($t);
+        $this->setStatus(true);
+        if($t == "CC"){
+            $this->setSaldo(50);
+        } else if($t == "CP"){
+            $this->setSaldo(150);
+        }
     }
 
     public function fecharConta()
@@ -83,20 +89,31 @@ class ContaBanco
     public function depositar($valor)
     {
         if($this->status == true){
-            $this->saldo + $valor;
+            $this->saldo += $valor;
+        } else{
+            echo "<p>Conta fechada. Não consigo depositar.</p>";
         }
     }
 
     public function sacar($valor)
     {
         if($this->saldo >= $valor && $this->status == true){
-            $this->saldo - $valor;
+            $this->saldo -= $valor;
         }
     }
 
     public function pagarMensal()
     {
-        
+        if($this->getTipo() == "CC"){
+            $v = 12;
+        } else if($this->getTipo() == "CP"){
+            $v = 20;
+        }
+        if($this->getStatus()){
+            $this->setSaldo($this->getSaldo() - $v);
+        } else{
+            echo "<p>Problemas com a conta. Não posso cobrar";
+        }
     }
 
 }
