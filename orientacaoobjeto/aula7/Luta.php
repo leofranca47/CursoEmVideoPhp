@@ -8,10 +8,10 @@ class Luta
 
     public function __constuct($desafiado, $desafiante, $rounds, $aprovada)
     {
-        setDesafiado($desafiado);
-        setDesafiante($desafiante);
-        setRounds($rounds);
-        setAprovada($aprovada);
+        $this->setDesafiado($desafiado);
+        $this->setDesafiante($desafiante);
+        $this->setRounds($rounds);
+        $this->setAprovada($aprovada);
     }
 
     public function getDesfiado()
@@ -61,6 +61,10 @@ class Luta
 
     public function lutar()
     {
-        
+        if($this->getAprovada()){
+
+        }else{
+            echo "Luta não pode aonctecer";
+        }
     }
 }
