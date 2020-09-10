@@ -1,18 +1,11 @@
 <?php
+require_once 'Lutadores.php';
 class Luta
 {
     private $desafiado;
     private $desafiante;
     private $rounds;
     private $aprovada;
-
-    public function __constuct($desafiado, $desafiante, $rounds, $aprovada)
-    {
-        $this->setDesafiado($desafiado);
-        $this->setDesafiante($desafiante);
-        $this->setRounds($rounds);
-        $this->setAprovada($aprovada);
-    }
 
     public function getDesfiado()
     {
@@ -54,14 +47,42 @@ class Luta
         $this->aprovada = $aprovada;
     }
 
-    public function marcarLuta()
+    public function marcarLuta($l1, $l2)
     {
-        
+        if($l1->getCategoria() === $l2->getCategoria() && ($l1 != $l2)){
+            $this->aprovada = true;
+            $this->desafiado = $l1;
+            $this->desafiante = $l2;
+        } else{
+            $this->aprovada = false;
+            $this->desafiado = null;
+            $this->desafiante = null;
+        }
     }
 
     public function lutar()
     {
         if($this->getAprovada()){
+            $this->desafiado->apresentar();
+            $this->desafiante->apresentar();
+            $vencedor = rand(0,2);
+            switch($vencedor){
+                case 0: //Empate
+                    echo "<p>Empate!</p>";
+                    $this->desafiado->empatarLuta();
+                    $this->desafiante->empatarLuta();
+                break;
+                case 1: //Desafiado vence
+                    echo "<p>".$this->desafiado->getNome()." Venceu</p>";
+                    $this->desafiado->ganharLuta();
+                    $this->desafiante->perderLuta();
+                break;
+                case 2: //Desafiante vence
+                    echo "<p>".$this->desafiante->getNome(). " venceu</p>";
+                    $this->desafiante->ganharLuta();
+                    $this->desafiado->perderLuta();
+                break;
+            }
 
         }else{
             echo "Luta não pode aonctecer";
